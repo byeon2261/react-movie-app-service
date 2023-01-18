@@ -24,3 +24,62 @@ src에 index, App을 제외한 파일은 삭제한다.
 
 index에서는 어플리케이션을 렌더링해주며 app파일에서 실제 기능들을 구현하여 렌더링한다.
 그외의 기본기능들은 react설치될때 설정되어있다.
+
+# 7 Practice Movie App
+
+## 7.0 To Do List Part One
+
+#### [React]
+
+App_1_toDoList.js를 생성하여 App1 컴포넌트를 생성한다. 해당 컴포넌트를 index.js에 호출추가를 해준다.
+
+    function App1() {
+        return (
+            <input
+                type={"text"}
+                placeholder="Write your to do.."
+            />
+        )
+    }
+
+    export default App1;
+
+toDo값을 받아보겠다.
+
+    const [toDo, setToDo] = useState("");  // state 변수. setToDo()를 통해 toDo값을 변경한다.
+    const onChange = (event) => setToDo(event.target.value);  // input값을 toDo에 넣어준다.
+    console.log(toDo);
+    ...
+        <input
+          onChange={onChange}
+          value={toDo}
+          ...
+        />
+
+버튼을 통해 데이터 submit기능을 구현한다.
+
+    const onSubmit = (event) => {
+        event.preventDefault();  // submit시 페이지 새로고침되는 기능 삭제.
+        console.log(toDo);
+        if (toDo === "") {
+            return;
+        }
+    }
+    ...
+        <form onSubmit={onSubmit}>
+            <input .../>
+            <button>Add to do</button>
+        </form>
+
+해당 데이터를 toDos 리스트 state를 생성하여 담아 본다.
+
+    ...
+    const [toDos, setToDos] = useState([]);
+    ...
+    const onSubmit = (event) => {
+        ...
+        // [1, array] >>>: [1, Array(n)]. [1, ...array]  >>>: [1, 2,3,4]
+        setToDos((currentArray) => [toDo, ...currentArray]);  // '...'를 붙이면 기존 array값들이 뜯어져 같이 리스트에 포함된다.
+        setToDo("");
+    }
+    ...

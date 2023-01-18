@@ -95,3 +95,74 @@ todo list를 list로 표기되도록 적용한다.
           <li key={index}>{item}</li>  // key값을 넣어주지 않아도 실행에는 문제가 발생하지않지만 콘솔에 에러가 발생한다.
         ))}
       </ul>
+
+## 7.2 Coin Tracker
+
+코인을 보여주는 화면을 생성한다. App2를 생성한다.
+
+@src/App_2_CoinTracker.js
+
+    function App2() {
+        const [loadin, setLoading] = useState(true);
+        return (
+            <div>
+                <h1>The Coin!</h1>
+                {loagin ? <strong>Loading...</strong> : null}
+            </div>
+        );
+    }
+
+    export default App2;
+
+useEffect를 사용하여 코인데이터를 fetch한다.
+
+    useEffect(()=> {
+        fetch("https://api.coinpaprika.com/v1/tickers")
+    }, [])  // 아무것도 주시하고 있지않으면 한번만 실행된다.
+
+브라우져에 network에 데이터를 받는 것을 확인할 수 있다. # #7.2 Coin Tracker_1.png 참조
+
+해당 json데이터를 console에서 확인 가능하다.
+
+    useEffect(() => {
+        fetch("https://api.coinpaprika.com/v1/tickers")
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+    }, []);
+
+해당 데이터를 coins state에 저장한다. 저장하면서 loading값을 false로 변경해준다.
+
+    const [coins, setCoins] = useState([]);
+    useEffect(() => {
+        fetch("https://api.coinpaprika.com/v1/tickers")
+            .then((response) => response.json())
+            .then((json) => {
+                setCoins(json);
+                setLoading(false);
+            });
+    }, []);
+
+리스트로 표기한다.
+
+    <ul>
+        {coins.map((coin) => (
+            <li>
+                {coin.name} ({coin.symbol}): {coin.quotes.USD.price} USD
+            </li>
+        ))}
+    </ul>
+
+리스트를 select로 구현해본다. 로딩시 값이 비어있는 표현을 수정하여 로딩이후 표현하도록 변경한다.
+
+      <h1>The Coin! {loading ? "" : "({coins.length})"}</h1>
+      {loading ? (
+        <strong>Loading...</strong>
+      ) : (
+        <select>
+          {coins.map((coin) => (
+            <option key={coin.id}>
+              {coin.name} ({coin.symbol}): {coin.quotes.USD.price} USD
+            </option>
+          ))}
+        </select>
+      )}

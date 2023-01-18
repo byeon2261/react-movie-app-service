@@ -83,3 +83,15 @@ toDo값을 받아보겠다.
         setToDo("");
     }
     ...
+
+## 7.1 To Do List Part two
+
+todo list를 list로 표기되도록 적용한다.
+
+    <hr />  // 가로로 라인을 만들어서 절취선과같은 모양을 생성
+      <ul>
+        {toDos.map((item, index) => (  // (value: never, index: number, array: never[])
+          // 같은 컴포넌트의 리스트를 render할 때 key라는 props를 넣어줘야한다. react가 list의 item들을 전부 인식해서 발생하는 오류
+          <li key={index}>{item}</li>  // key값을 넣어주지 않아도 실행에는 문제가 발생하지않지만 콘솔에 에러가 발생한다.
+        ))}
+      </ul>

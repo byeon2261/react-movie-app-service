@@ -306,6 +306,54 @@ App에서 router기능을 구현한다. router는 URL을 보는 컴포넌트이�
     6버젼에서 5버젼 코드를 사용하면 오류가 발생한다. 기존 문법을 버린듯 하다.
     이번 프로젝트 강의는 5버젼에서 이뤄졌기때문에 5버젼으로 다운그레이드하여 작업을 진행하였다.
     ! 6버젼도 화인 및 사용연습이 필요하다.
+    6버젼 사용법은 지금 react-router-dom페이지를 확인해보자. nomadcoder 댓글 정보도 적극 활용하자.
+    https://reactrouter.com/en/main/start/tutorial
 
     $ npm i react-router-dom@5.2.0
     기존에 설치가 되어있어도 다운그래이드하여 설치된다.
+
+# react-router-dom 5버전 -> 버전6 바뀐 부분
+
+    1. Switch컴포넌트가 Routes컴포넌트로 대체되었습니다.
+    Switch -> Routes
+
+    2. Route컴포넌트 사이에 자식 컴포넌트를 넣지 않고, element prop에 자식 컴포넌트를 할당하도록 바뀌었습니다.
+    Route path="/" element={< Home / >}
+
+## 7.5 React Router
+
+5버젼 quick start
+<https://v5.reactrouter.com/web/guides/quick-start>
+
+기본구성을 구현한다.
+
+    import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+    import Home from "./routes/Home";
+
+    function App() {
+        return (
+            <Router>
+                <Switch>  // route를 찾아서 컴포넌트를 랜더링해준다.
+                    <Route path="/hello">
+                        <h1>Hello</h1>
+                    </Route>
+                    <Route path="/">
+                        <Home />
+                    </Route>
+                </Switch>
+            </Router>
+        );
+    }
+
+홈페이지에 화면이 나온다. Detail도 추가해준다.
+
+이제 home에서 movie를 선택했을때 detail로 이동하는 link를 만들고 싶다.
+html <a>를 사용하면 페이지가 재실행된다. html태그 대신 react에서 지원하는 Link 컴포넌트가 있다.
+
+@components/Movie.js
+
+    import { Link } from "react-router-dom";
+    ...
+        <h2>
+            <Link to="/movie">{title}</Link>
+        </h2>

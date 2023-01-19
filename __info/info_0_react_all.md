@@ -170,3 +170,71 @@ useEffect를 사용하여 코인데이터를 fetch한다.
 ### ! CodeChallenge
 
 select한 코인단위로 코인가격을 출력해보자
+
+## 7.3 Movie App part One
+
+영화를 소개해주는 프로젝트를 진행한다. yst에서 무료 api를 가져와서 사용가능하다.
+
+<https://yts.mx/>
+
+평점이 8.8점 이상이며 year sort로 api를 받겠다. https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=year
+
+기본데이터를 가져오는 로직을 작성한다.
+
+    import { useEffect, useState } from "react";
+
+    function App() {
+        const [loading, setLoading] = useState(true);
+        const [movies, setMovies] = useState([]);
+
+        useEffect(() => {
+            fetch(
+                "https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=year"
+            )
+                .then((response) => response.json())
+                .then((json) => {
+                    setMovies(json.data.movies);
+                    setLoading(false);
+                });
+        }, []);
+        console.log(movies);
+        return <div>{loading ? <h1>Loading...</h1> : null}</div>;
+    }
+
+    export default App;
+
+then함수대신에 async-await함수를 사용하여 구성해본다.
+
+    const getMovies = async () => {
+        const json = await (
+            await fetch(
+                "https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=year"
+            )
+        ).json();
+        setMovies(json.data.movies);
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        getMovies();
+    }, []);
+
+함수를 따로 생성하여 async-await함수를 이용하였다.
+
+표시할 데이터를 가져와서 간략하게 구성한다.
+
+    <div>
+        {movies.map((movie) => (
+            <div key={movie.id}>
+                <img src={movie.medium_cover_image} />
+                <h2>{movie.title}</h2>
+                <span>rating: {movie.rating}</span>
+                <p>{movie.summary}</p>
+                <ul>
+                    {movie.genres.map((p) => (  # 임의의 변수를 지정. map으로 데이터 넣을시 key를 부여하자
+                        <li key={p}>{p}</li>
+                ))}
+                </ul>
+            </div>
+        ))}
+    </div>

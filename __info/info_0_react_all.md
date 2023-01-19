@@ -166,3 +166,7 @@ useEffect를 사용하여 코인데이터를 fetch한다.
           ))}
         </select>
       )}
+
+### ! CodeChallenge
+
+select한 코인단위로 코인가격을 출력해보자

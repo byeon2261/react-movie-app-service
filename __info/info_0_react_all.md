@@ -238,3 +238,74 @@ then함수대신에 async-await함수를 사용하여 구성해본다.
             </div>
         ))}
     </div>
+
+## 7.4 Movie App part Two
+
+위에 생성한 영화 관련 코드를 컴포넌트를 생성하여 옮기도록 한다. Movie.js를 생성한다.
+@src/Movie.js
+
+    function Movie({ coverImg, title, rating, summary, genres }) {
+        return (
+            <div>
+                <img src={coverImg} alt={title} />
+                <h2>{title}</h2>
+                <span>rating: {rating}</span>
+                <p>{summary}</p>
+                // genres를 리스트로 생성할때 값이 없는 리스트가 들어오면서 typeerror가 발생한다.
+                // 그전에는 에러가 발생하지 않았다 (property에서 map을 한거여서 에러가 발생.)
+                <ul>{genres && genres.map((g) => <li key={g}>{g}</li>)}</ul>
+            </div>
+        );
+    }
+
+property에 null 또는 undefinded 데이터를 보낼경우 에러. 해당 type은 property에 전송이 안된다.
+
+<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/No_properties>
+
+component에 데이터를 보내준다.
+
+    {movies.map((movie) => (
+        <Movie
+            key={movie.id}  // key는 react에서만 map안에서 component들을 render할 때 사용된다.
+            coverImg={movie.medium_cover_image}
+            title={movie.title}
+            rating={movie.rating}
+            summary={movie.summary}
+            genres={movie.generes}
+        />
+    ))}
+
+property의 type을 지정할 수 있다.
+@Movie.js
+
+    Movie.propType = {
+        coverImg: propType.string.isRequired,
+        title: propType.string.isRequired,
+        rating: propType.number.isRequired,
+        summary: propType.string.isRequired,
+        genres: propType.arrayOf(propType.string),
+    };
+
+TypeScript props구현과 같은 기능인거 같다.
+
+movie detail페이지를 구현한다.
+react router로 페이지를 이동기능을 구현한다. 설치를 진행
+<https://reactrouter.com/en/6.7.0/start/tutorial#setup>
+
+    $ npm install react-router-dom
+
+모든 컴포넌트를 페이지 별로 분리하겠다. routes 폴더를 생성하여 Home.js 파일을 생성한다. components폴더도 생성한다.
+Movie.js파일을 components폴더로 이동한다. App.js파일의 return이후의 코드를 Home.js 파일에 옮겨준다.
+
+detail.js파일을 생성하여 기본 hello world를 구현해준다.
+
+App에서 router기능을 구현한다. router는 URL을 보는 컴포넌트이며 url에 따라 컴포넌트를 보여준다.
+
+# ! 현재 react-router-dom 문법이 6버젼과 5버젼과 차이가 있다.
+
+    6버젼에서 5버젼 코드를 사용하면 오류가 발생한다. 기존 문법을 버린듯 하다.
+    이번 프로젝트 강의는 5버젼에서 이뤄졌기때문에 5버젼으로 다운그레이드하여 작업을 진행하였다.
+    ! 6버젼도 화인 및 사용연습이 필요하다.
+
+    $ npm i react-router-dom@5.2.0
+    기존에 설치가 되어있어도 다운그래이드하여 설치된다.

@@ -430,3 +430,73 @@ url에 있는 파라미터를 제공해주는 useParams 함수가 있다.
         const { id } = useParams();  //  id -> { id }
 
 detail화면을 구성한다. loadging기능 및 state를 구현한다.
+
+## 7.7 Publishing
+
+gh-pages를 설치한다. (이것도 설치해서 사용하는구나)
+
+    $ npm i gh-pages
+
+배포하기전에 package.json의 scripts를 확인한다.
+
+    script: {
+        ...
+        "build": "react-scripts build",
+        ...
+    }
+    ...
+
+scripts의 build 스크립트를 실행하면 우리 웹사이트의 production ready code를 생성한다.
+production ready란 코드가 압축되고 모든게 최적화된다는 의미이다.
+
+    $ npm run build
+
+build라는 폴더가 생성된다. 해당 폴더에 압축된 js파일들이 생성된다.(build/static/js/main.04bc97d5.js)
+해당 파일을 github페이지에 push해야한다.
+
+package.json 에 homepage를 추가해준다.
+
+    ...
+    "homepage": "https://ghbyeon2261.github.io/react"  // github에 있는 레퍼지토리 이름을 넣어줘야한다.
+
+git에 원격 연결을 해준다.
+
+    $ git remote -v
+
+package.json 에 해당 페이지를 실행시켜줄 script를 추가해준다.
+
+    script : {
+        ...
+        "deploy": "gh-pages build"
+    }
+    ...
+
+먼저 build를 하고 난 다음에 deploy를 해야한다는것을 기억하고 싶지 않기때문에 predeploy 커멘드를 생성한다.??
+
+    "predeploy": "npm run build"
+
+이제 deploy커맨드를 실행하면 predeploy가 실행된 후 실행한다.
+
+    $ npm run deploy
+
+해당 페이지는 url로 이동하여 확인할 수 있다. 페이지가 올라오는데는 5분정도 시간이 걸린다.
+
+# ! github repository에 여러 프로젝트가 있을경우 github-pages제대로 나올까
+
+    지금 derectory구조가 이중이다.
+
+    react / react-for-beginner-app
+          / react-for-beginner
+
+    github에는 react로 올라가 있으면 해당 폴더에 한개의 프로젝트만 있지도 않다.
+
+    이때 github-page로 생성할 수 있는 방법은 어떤거일까?
+
+    1. react-for-beginner-app으로 새로 repository를 생성한다.
+        해당 방법은 react repository와 충돌이 발생할 것으로 예상됨.
+
+    2. ...
+
+    !! 레파지토리(Repository)의 하위 디렉토리를 다른 레파지토리로 분리할 수가 있다.
+
+<https://ashortday.tistory.com/58>

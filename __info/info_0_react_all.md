@@ -357,3 +357,76 @@ html <a>를 사용하면 페이지가 재실행된다. html태그 대신 react�
         <h2>
             <Link to="/movie">{title}</Link>
         </h2>
+
+## 7.6 Parameters
+
+Link to를 통해 변수값을 파라미터롤 전송이 가능하다.
+
+    ...
+    <Route path={"/movie/:id"}>
+    ...
+
+router에 id쪽에 오는 값이 무엇인지 알고 싶다는 의미이다.
+
+기존에 id를 property에 전달하지 않았다.
+home에 매개변수에 id를 추가해주며 movie 인수에 추가해줘서 Link에 해당 id를 추가해준다.
+
+@routes/Home
+
+    ...
+    <Movie
+        id={movie.id}
+        ...
+    />
+    ...
+
+@components/Movie
+
+    function Movie({ id, ... }) {
+        ...
+        <Link to={`movie/${id}`}>
+        ...
+    }
+
+    Movie.propType = {
+        id: propType.number.isRequired,
+        ...
+    }
+
+브라우져에서 Link 클릭으로 페이지를 이동하면 router(URL)에 id가 추가되는 것을 확인 할 수 있다.
+
+url에 있는 파라미터를 제공해주는 useParams 함수가 있다.
+@Detail
+
+    import { useParams } from "react-router-dom";
+
+    ...
+        const x = useParams();
+        console.log(x);  // >>>: id: "48017". id는 변수명
+
+해당 id로 데이터를 fetch하겠다.
+
+    const getMovie = async () => {
+        const json = await (
+            await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
+        ).json();
+        console.log(json);
+    };
+    useEffect(() => {
+        getMovie();
+    }, []);
+
+# ! 강의에서는 에러가 발생하지 않지만 실제로 테스트를 해보면 에러가 발생한다.
+
+    React Hook useEffect has a missing dependency: 'getMovie'. Either include it or
+    remove the dependency array  react-hooks/exhaustive-deps
+
+    경고가 발생합니다. 해당 에러는 강의 댓글에서 해결 방법들이 나와 있다. 다른 사용자는 에러로 분류되는건가 실행에는 문제가 없다.
+
+<https://nomadcoders.co/react-for-beginners/lectures/3292>
+
+    !! 나같은 경우에는 useParams변수를 중괄호를 치지않아서 발생한 오류이다.
+
+        const { id } = useParams();  //  id -> { id }
+
+detail화면을 구성한다. loadging기능 및 state를 구현한다.

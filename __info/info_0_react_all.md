@@ -500,3 +500,5 @@ package.json 에 해당 페이지를 실행시켜줄 script를 추가해준다.
     !! 레파지토리(Repository)의 하위 디렉토리를 다른 레파지토리로 분리할 수가 있다.
 
 <https://ashortday.tistory.com/58>
+
+    분리 완료

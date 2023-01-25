@@ -501,4 +501,4 @@ package.json 에 해당 페이지를 실행시켜줄 script를 추가해준다.
 
 <https://ashortday.tistory.com/58>
 
-    분리 완료
+react-movie-app-service로 분리

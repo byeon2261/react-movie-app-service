@@ -471,7 +471,7 @@ package.json 에 해당 페이지를 실행시켜줄 script를 추가해준다.
     }
     ...
 
-먼저 build를 하고 난 다음에 deploy를 해야한다는것을 기억하고 싶지 않기때문에 predeploy 커멘드를 생성한다.??
+먼저 build를 하고 난 다음에 deploy를 해야한다는것을 기억하고 싶지 않기때문에 predeploy 커멘드를 생성한다.
 
     "predeploy": "npm run build"
 
@@ -502,3 +502,18 @@ package.json 에 해당 페이지를 실행시켜줄 script를 추가해준다.
 <https://ashortday.tistory.com/58>
 
 react-movie-app-service로 분리
+
+# ! npm run start 오류
+
+    $ npm run start
+
+    > react-for-beginner-app@0.1.0 start
+    > react-scripts start
+
+    sh: react-scripts: command not found  // 오류 발생
+    디렉토리 변경으로 발생한 오류일거 같음.
+
+    !! git repository에 build, node_modules 폴더가 올라가있지 않다. (gitignore에 포함되어 있다.)
+    해당 폴더가 pull할때 옮겨지지 않았다. rm 명령어에도 삭제되지 않았다.
+    다행이 해당 폴더가 rm명령어에도 삭제가 되지 않아서 지금 디렉토리로 옮겼다. (이전 디렉토리는 삭제된 상태)
+    정상적으로 작동된다. !!
